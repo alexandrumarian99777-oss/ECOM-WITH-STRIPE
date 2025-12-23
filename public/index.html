@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Clothes Shop</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+  <header class="site-header">
+    <h1>Clothes Shop</h1>
+    <button id="viewCartBtn" class="cart-btn">Cart (<span id="cart-count">0</span>)</button>
+  </header>
+
+  <main id="products" class="products-grid">
+    <!-- products injected here -->
+  </main>
+
+  <!-- simple cart drawer -->
+  <aside id="cartDrawer" class="cart-drawer hidden">
+    <h2>Your cart</h2>
+    <div id="cartItems"></div>
+    <div class="cart-summary">
+      <div>Total: $<span id="cartTotal">0.00</span></div>
+      <button id="checkoutBtn">Checkout</button>
+      <button id="clearCartBtn" class="muted">Clear cart</button>
+      <button id="closeCartBtn" class="muted">Close</button>
+    </div>
+  </aside>
+
+  <script src="/main.js"></script>
+</body>
+</html>

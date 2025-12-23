@@ -1,0 +1,20 @@
+    <!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Payment Success</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main class="center">
+    <h1>Payment successful</h1>
+    <p>Thank you for your purchase. Your order is being processed.</p>
+    <a href="/" class="btn">Back to shop</a>
+  </main>
+  <script>
+    // Optionally clear cart on arrival
+    fetch('/api/cart/clear', { method: 'POST' }).catch(()=>{});
+  </script>
+</body>
+</html>
