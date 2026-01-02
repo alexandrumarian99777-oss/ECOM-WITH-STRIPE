@@ -14,7 +14,7 @@ if (!process.env.STRIPE_SECRET_KEY || !process.env.STRIPE_PUBLISHABLE_KEY) {
 const app = express();
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 const DOMAIN = process.env.DOMAIN || `http://localhost:${PORT}`;
 
 app.use(cors());
@@ -106,13 +106,6 @@ app.post('/api/checkout', async (req, res) => {
   });
 
   res.json({ sessionId: session.id });
-});
-app.get('/success', (req, res) => {
-  res.send('<h1>Payment successful</h1>');
-});
-
-app.get('/cancel', (req, res) => {
-  res.send('<h1>Payment cancelled</h1>');
 });
 
 app.listen(PORT, () => {
