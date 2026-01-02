@@ -107,6 +107,13 @@ app.post('/api/checkout', async (req, res) => {
 
   res.json({ sessionId: session.id });
 });
+app.get('/success', (req, res) => {
+  res.send('<h1>Payment successful</h1>');
+});
+
+app.get('/cancel', (req, res) => {
+  res.send('<h1>Payment cancelled</h1>');
+});
 
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
