@@ -34,6 +34,14 @@ app.use(
   })
 );
 
+app.use(
+  session({
+    secret: 'dev-secret',
+    resave: false,
+    saveUninitialized: true
+  })
+);
+
 // PRODUCTS
 const PRODUCTS = [
   { id: 'tshirt-001', name: 'Classic Tee', price: 1999, currency: 'usd', image: 'https://via.placeholder.com/400?text=Classic+Tee' },
@@ -73,16 +81,53 @@ app.post('/api/cart', (req, res) => {
   res.json(cart);
 });
 
-app.post('/api/cart/clear', (req, res) => {
-  req.session.cart = [];
-  res.json({ ok: true });
+app.post('/api/cart/remove', (req, res) => {
+  const { id } = req.body;
+
+  if (!id) {
+    return res.status(400).json({ error: 'Missing id' });
+  }
+
+  const cart = ensureCart(req);
+
+  const item = cart.find(i => i.id === id);
+
+  if (!item) {
+    return res.status(404).json({ error: 'Item not found in cart' });
+  }
+
+  // decrement quantity
+  item.qty -= 1;
+
+  // remove item completely if qty <= 0
+  if (item.qty <= 0) {
+    req.session.cart = cart.filter(i => i.id !== id);
+  }
+
+  res.json(req.session.cart);
 });
 
 // STRIPE CONFIG
 app.get('/config', (req, res) => {
   res.json({ publishableKey: process.env.STRIPE_PUBLISHABLE_KEY });
 });
+app.post('/api/cart/remove', (req, res) => {
+  console.log('REMOVE BODY:', req.body);
 
+  const { id } = req.body;
+
+  if (!id) {
+    return res.status(400).json({ error: 'Missing id' });
+  }
+
+  if (!req.session.cart) {
+    req.session.cart = [];
+  }
+
+  req.session.cart = req.session.cart.filter(item => item.id !== id);
+
+  res.json({ success: true });
+});
 // STRIPE CHECKOUT
 app.post('/api/checkout', async (req, res) => {
   const cart = ensureCart(req);
